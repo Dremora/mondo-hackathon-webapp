@@ -44,30 +44,17 @@ var styles = {
 
 @Radium
 export default class ChartWrapper extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      currentDate: new Date()
-    }
-  }
-
   previousMonth() {
-    this.setState({
-      currentDate: moment(this.state.currentDate).subtract(1, 'month').toDate()
-    })
-    this.props.onMonthChange(this.state.currentDate)
+    this.props.onMonthChange(moment(this.props.currentDate).subtract(1, 'month').toDate())
   }
 
   nextMonth() {
-    this.setState({
-      currentDate: moment(this.state.currentDate).add(1, 'month').toDate()
-    })
-    this.props.onMonthChange(this.state.currentDate)
+    this.props.onMonthChange(moment(this.props.currentDate).add(1, 'month').toDate())
   }
 
   render () {
     const { onMonthChange, ...props } = this.props
-    const month = moment(this.state.currentDate).format('MMMM YYYY')
+    const month = moment(this.props.currentDate).format('MMMM YYYY')
 
     return <div style={styles.container}>
       <div style={styles.monthContainer}>
