@@ -16,8 +16,13 @@ div.dash {
 	}
 
 	div{
+		width: 10%;
 		display: inline-block;
-		padding: 30px;
+		top: 2%;
+		padding: 2%;
+		background-color: $red;
+		margin: 5%;
+		@include border-radius(100%);
 	}
 }
 

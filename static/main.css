@@ -23,8 +23,16 @@ div.dash {
   div.dash h1 {
     padding: 20px; }
   div.dash div {
+    width: 10%;
     display: inline-block;
-    padding: 30px; }
+    top: 2%;
+    padding: 2%;
+    background-color: #E64B5F;
+    margin: 5%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    border-radius: 100%; }
 
 div.report {
   background-color: #EAD19F;
