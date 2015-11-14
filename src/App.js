@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Pie from "./Pie";
 import Dashboard from './Dashboard';
 import ChartWrapper from './ChartWrapper';
 
@@ -12,6 +12,7 @@ export class App extends Component {
           <h2>tracking your progress...</h2>
           <ChartWrapper onMonthChange={() => {}}/>
       	</div>
+        <Pie />
       </div>
     );
   }
