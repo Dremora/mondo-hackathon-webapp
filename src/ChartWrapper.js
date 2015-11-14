@@ -66,6 +66,7 @@ export default class ChartWrapper extends Component {
   }
 
   render () {
+    const { onMonthChange, ...props } = this.props
     const month = moment(this.state.currentDate).format('MMMM YYYY')
 
     return <div style={styles.container}>
@@ -74,7 +75,7 @@ export default class ChartWrapper extends Component {
         <span style={styles.month}>{month}</span>
         <span onClick={::this.nextMonth} style={[styles.arrow, styles.next]}>NEXT</span>
       </div>
-      <div style={styles.chart}><Chart/></div>
+      <div style={styles.chart}><Chart {...props}/></div>
     </div>
   }
 }
