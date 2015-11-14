@@ -7,7 +7,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <Dashboard/>
+        <Dashboard daily={100} balance={200}/>
         <Chart/>
       </div>
     );
