@@ -49,6 +49,10 @@
     "webpack-hot-middleware": "^2.0.0"
   },
   "dependencies": {
+    "gaussian": "^1.0.0",
+    "immutable": "^3.7.5",
+    "lodash": "^3.10.1",
+    "moment": "^2.10.6",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "victory": "0.0.2"
