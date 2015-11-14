@@ -3,7 +3,7 @@ import { VictoryChart, VictoryLine, VictoryAxis } from "victory"
 import _ from 'lodash'
 import Immutable from 'immutable'
 import gaussian from 'gaussian'
-
+import moment from 'moment'
 
 const maxToSpend = 500
 const days = 30
@@ -20,7 +20,7 @@ const spentPerDay = _.range(1, days + 1).map(day => {
 
 const transactionData = _.foldl(spentPerDay, (acc, day) => {
   if (acc.size === 0) {
-    return Immutable.List.of(day);
+    return Immutable.List.of(day)
   } else {
     return acc.push(acc.get(acc.size - 1) + day)
   }
