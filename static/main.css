@@ -1,0 +1,36 @@
+html,
+body {
+  margin: 0;
+  padding: 0; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0; }
+
+body {
+  font: 100% Helvetica, sans-serif; }
+
+div.dash {
+  background-color: #1E788C;
+  color: #9ABDA9;
+  padding: 0;
+  margin: 0;
+  text-align: center; }
+  div.dash h1 {
+    padding: 20px; }
+  div.dash div {
+    display: inline-block;
+    padding: 30px; }
+
+div.report {
+  background-color: #EAD19F;
+  color: #E64B5F;
+  text-align: center; }
+  div.report h2 {
+    padding: 20px; }
+
+/*# sourceMappingURL=main.css.map */

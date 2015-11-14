@@ -8,7 +8,10 @@ export class App extends Component {
     return (
       <div>
         <Dashboard daily={100} balance={200}/>
-        <ChartWrapper onMonthChange={() => {}}/>
+        <div className="report">
+          <h2>tracking your progress...</h2>
+          <ChartWrapper onMonthChange={() => {}}/>
+      	</div>
       </div>
     );
   }
