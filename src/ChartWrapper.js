@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import Chart from './Chart'
+import LineChart from './LineChart'
+import PieChart from './PieChart'
 import Radium from 'radium'
 
 var styles = {
@@ -9,11 +10,23 @@ var styles = {
     flexDirection: 'column'
   },
 
-  monthContainer: {
+  charts: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center'
+  },
+
+  tabs: {
     display: 'flex',
     flex: 1,
     justifyContent: 'center',
     lineHeight: '20px'
+  },
+
+  tab: {
+    flex: 1,
+    textAlign: 'center'
   },
 
   month: {
@@ -33,12 +46,6 @@ var styles = {
 
   next: {
     marginLeft: '20px'
-  },
-
-  chart: {
-    display: 'flex',
-    flex: 1,
-    justifyContent: 'center'
   }
 }
 
@@ -57,12 +64,15 @@ export default class ChartWrapper extends Component {
     const month = moment(this.props.currentDate).format('MMMM YYYY')
 
     return <div style={styles.container}>
-      <div style={styles.monthContainer}>
-        <span onClick={::this.previousMonth} style={[styles.arrow, styles.previous]}>PREVIOUS</span>
-        <span style={styles.month}>{month}</span>
-        <span onClick={::this.nextMonth} style={[styles.arrow, styles.next]}>NEXT</span>
+      <div style={styles.tabs}>
+        <div style={styles.tab}>This week</div>
+        <div style={styles.tab}>This month</div>
+        <div style={styles.tab}>This year</div>
       </div>
-      <div style={styles.chart}><Chart {...props}/></div>
+      <div style={styles.charts}>
+        <LineChart {...props}/>
+        <PieChart label="Coffee" value={42} total={2000}/>
+      </div>
     </div>
   }
 }

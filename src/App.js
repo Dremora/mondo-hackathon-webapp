@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Pie from "./Pie";
 import gaussian from 'gaussian'
 import _ from 'lodash'
 import moment from 'moment'
 import 'whatwg-fetch'
 
-import Dashboard from './Dashboard';
 import ChartWrapper from './ChartWrapper';
 import body from './data'
 
@@ -74,12 +72,7 @@ export class App extends Component {
       <div>
         {this.state.loading ? <span>Loading...</span> :
           <div>
-            <Dashboard daily={100} balance={200}/>
-            <div className="report">
-              <h2>tracking your progress...</h2>
-              <ChartWrapper currentDate={currentDate} onMonthChange={::this.changeMonth} maxToSpend={maxToSpend} data={newData}/>
-            </div>
-            <Pie />
+            <ChartWrapper currentDate={currentDate} onMonthChange={::this.changeMonth} maxToSpend={maxToSpend} data={newData}/>
           </div>
         }
       </div>
