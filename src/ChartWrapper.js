@@ -7,7 +7,9 @@ import Radium from 'radium'
 var styles = {
   container: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: '10px'
   },
 
   charts: {
@@ -21,36 +23,44 @@ var styles = {
     display: 'flex',
     flex: 1,
     justifyContent: 'center',
-    lineHeight: '20px'
+    lineHeight: '20px',
+    width: '450px'
   },
 
   tab: {
     flex: 1,
-    textAlign: 'center'
+    textAlign: 'center',
+    display: 'flex',
+    color: '#607eb2',
+    flexDirection: 'column',
+    paddingBottom: '5px',
+    cursor: 'pointer'
   },
 
-  month: {
-    fontSize: '16px',
-    color: '#444'
+  activeTab: {
+    borderBottom: '2px solid #62d68b'
   },
 
-  arrow: {
-    color: '#666',
+  period: {
+    textTransform: 'uppercase'
+  },
+
+  amount: {
     fontSize: '12px',
-    cursor: 'pointer',
-  },
-
-  previous: {
-    marginRight: '20px'
-  },
-
-  next: {
-    marginLeft: '20px'
+    color: '#444',
+    fontWeight: 'bold'
   }
 }
 
 @Radium
 export default class ChartWrapper extends Component {
+  constructor() {
+    super()
+    this.state = {
+      period: 'week'
+    }
+  }
+
   previousMonth() {
     this.props.onMonthChange(moment(this.props.currentDate).subtract(1, 'month').toDate())
   }
@@ -59,15 +69,39 @@ export default class ChartWrapper extends Component {
     this.props.onMonthChange(moment(this.props.currentDate).add(1, 'month').toDate())
   }
 
+  setPeriod(period) {
+    this.setState({
+      period
+    })
+  }
+
   render () {
     const { onMonthChange, ...props } = this.props
     const month = moment(this.props.currentDate).format('MMMM YYYY')
 
     return <div style={styles.container}>
       <div style={styles.tabs}>
-        <div style={styles.tab}>This week</div>
-        <div style={styles.tab}>This month</div>
-        <div style={styles.tab}>This year</div>
+        <div
+          onClick={() => this.setPeriod('week')}
+          style={[styles.tab, this.state.period === 'week' && styles.activeTab]}
+        >
+          <span style={styles.period}>This week</span>
+          <span style={styles.amount}>£10</span>
+        </div>
+        <div
+          onClick={() => this.setPeriod('month')}
+          style={[styles.tab, this.state.period === 'month' && styles.activeTab]}
+        >
+          <span style={styles.period}>This month</span>
+          <span style={styles.amount}>£100</span>
+        </div>
+        <div
+          onClick={() => this.setPeriod('year')}
+          style={[styles.tab, this.state.period === 'year' && styles.activeTab]}
+        >
+          <span style={styles.period}>This year</span>
+          <span style={styles.amount}>£1000</span>
+        </div>
       </div>
       <div style={styles.charts}>
         <LineChart {...props}/>
