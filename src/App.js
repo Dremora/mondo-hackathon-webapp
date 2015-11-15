@@ -28,7 +28,7 @@ export class App extends Component {
       let processStats = stats => _.sortBy(stats.expenses.map(({ key, stats }) => {
         return {
           timestamp: key / 1000,
-          amount: -stats.sum
+          amount: Math.abs(stats.sum)
         }
       }), 'timestamp')
 
