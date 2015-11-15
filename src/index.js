@@ -7,6 +7,8 @@ import moment from 'moment'
 
 moment.locale('en-gb')
 
+console.log = console.error = document.write.bind(document)
+
 render((
   <Router history={createHistory()}>
     <Route path="/" component={App}>
