@@ -54,13 +54,6 @@ var styles = {
 
 @Radium
 export default class ChartWrapper extends Component {
-  constructor() {
-    super()
-    this.state = {
-      period: 'week'
-    }
-  }
-
   previousMonth() {
     this.props.onMonthChange(moment(this.props.currentDate).subtract(1, 'month').toDate())
   }
@@ -69,35 +62,30 @@ export default class ChartWrapper extends Component {
     this.props.onMonthChange(moment(this.props.currentDate).add(1, 'month').toDate())
   }
 
-  setPeriod(period) {
-    this.setState({
-      period
-    })
-  }
-
   render () {
-    const { onMonthChange, ...props } = this.props
+    const { onPeriodChange, period, ...props } = this.props
+    console.log(period)
     const month = moment(this.props.currentDate).format('MMMM YYYY')
 
     return <div style={styles.container}>
       <div style={styles.tabs}>
         <div
-          onClick={() => this.setPeriod('week')}
-          style={[styles.tab, this.state.period === 'week' && styles.activeTab]}
+          onClick={() => onPeriodChange('week')}
+          style={[styles.tab, period === 'week' && styles.activeTab]}
         >
           <span style={styles.period}>This week</span>
           <span style={styles.amount}>£10</span>
         </div>
         <div
-          onClick={() => this.setPeriod('month')}
-          style={[styles.tab, this.state.period === 'month' && styles.activeTab]}
+          onClick={() => onPeriodChange('month')}
+          style={[styles.tab, period === 'month' && styles.activeTab]}
         >
           <span style={styles.period}>This month</span>
           <span style={styles.amount}>£100</span>
         </div>
         <div
-          onClick={() => this.setPeriod('year')}
-          style={[styles.tab, this.state.period === 'year' && styles.activeTab]}
+          onClick={() => onPeriodChange('year')}
+          style={[styles.tab, period === 'year' && styles.activeTab]}
         >
           <span style={styles.period}>This year</span>
           <span style={styles.amount}>£1000</span>

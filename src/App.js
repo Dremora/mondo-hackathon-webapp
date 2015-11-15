@@ -12,7 +12,8 @@ export class App extends Component {
     super(...arguments)
     this.state = {
       loading: true,
-      currentDate: new Date()
+      currentDate: new Date(),
+      period: 'week'
     }
   }
 
@@ -34,14 +35,16 @@ export class App extends Component {
     // });
   }
 
-  changeMonth(month) {
+  changePeriod(period) {
+    let start = moment().startOf(period).unix()
+    let end = moment().endOf(period).unix()
     this.setState({
-      currentDate: month
+      period: period
     })
   }
 
   render() {
-    let { data, currentDate } = this.state
+    let { data, currentDate, period } = this.state
     data = _.map(data, (entries, timestamp) => ({
       timestamp,
       amount: _.reduce(entries, (acc, { amount }) => amount > 0 ? acc : acc - amount, 0)
@@ -72,7 +75,13 @@ export class App extends Component {
       <div>
         {this.state.loading ? <span>Loading...</span> :
           <div>
-            <ChartWrapper currentDate={currentDate} onMonthChange={::this.changeMonth} maxToSpend={maxToSpend} data={newData}/>
+            <ChartWrapper
+              currentDate={currentDate}
+              period={period}
+              onPeriodChange={::this.changePeriod}
+              maxToSpend={maxToSpend}
+              data={newData}
+            />
           </div>
         }
       </div>
