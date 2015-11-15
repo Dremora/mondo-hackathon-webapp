@@ -65,6 +65,7 @@ export default ({ data, period }) => {
         style={{data:
           {stroke: "red", strokeWidth: 2}
         }}
+        interpolation="monotone"
         data={data}
       />
 
@@ -73,6 +74,7 @@ export default ({ data, period }) => {
         style={{data:
           {stroke: "green", strokeWidth: 2}
         }}
+        interpolation="monotone"
         data={ideal}
       />
     </VictoryChart>
