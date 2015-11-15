@@ -4,7 +4,6 @@ import _ from 'lodash'
 import moment from 'moment'
 
 export default ({ data, period }) => {
-  console.log(data)
   const chartData = data.map(({ amount, timestamp}) => ({
     x: Number(timestamp),
     y: amount
@@ -42,17 +41,15 @@ export default ({ data, period }) => {
     start.add(1, periodDiff)
   }
 
-  console.log(data)
+  console.log(chartData)
 
   return (
     <VictoryChart>
       <VictoryAxis
         tickFormat={x => `£${x / 100}`}
         dependentAxis={true}
-        animate={{velocity: 0.1}}
       />
       <VictoryAxis
-        animate={{velocity: 0.1}}
         tickFormat={x => moment.unix(x).format(tickFormat)}
         tickValues={tickValues}
         independentAxis={true}
@@ -63,7 +60,6 @@ export default ({ data, period }) => {
         }}
       />
       <VictoryBar
-        animate={{velocity: 0.1}}
         data={chartData}
       />
     </VictoryChart>

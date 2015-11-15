@@ -64,7 +64,10 @@ export default class ChartWrapper extends Component {
   }
 
   render () {
-    const { onPeriodChange, period, maxToSpend, accumulatedData, data } = this.props
+    const {
+      onPeriodChange, period, maxToSpend, accumulatedData, data,
+      weekAmount, monthAmount, yearAmount
+    } = this.props
     const month = moment(this.props.currentDate).format('MMMM YYYY')
 
     return <div style={styles.container}>
@@ -74,21 +77,21 @@ export default class ChartWrapper extends Component {
           style={[styles.tab, period === 'week' && styles.activeTab]}
         >
           <span style={styles.period}>This week</span>
-          <span style={styles.amount}>£10</span>
+          <span style={styles.amount}>£{weekAmount / 100}</span>
         </div>
         <div
           onClick={() => onPeriodChange('month')}
           style={[styles.tab, period === 'month' && styles.activeTab]}
         >
           <span style={styles.period}>This month</span>
-          <span style={styles.amount}>£100</span>
+          <span style={styles.amount}>£{monthAmount / 100}</span>
         </div>
         <div
           onClick={() => onPeriodChange('year')}
           style={[styles.tab, period === 'year' && styles.activeTab]}
         >
           <span style={styles.period}>This year</span>
-          <span style={styles.amount}>£1000</span>
+          <span style={styles.amount}>£{yearAmount / 100}</span>
         </div>
       </div>
       <div style={styles.charts}>

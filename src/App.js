@@ -74,6 +74,10 @@ export class App extends Component {
     //   timestamp >= beginningOfMonth && timestamp <= endOfMonth
     // ))
 
+    let weekAmount = _.sum(periodData.week, 'amount')
+    let monthAmount = _.sum(periodData.month, 'amount')
+    let yearAmount = _.sum(periodData.year, 'amount')
+
     let accumulatedData = []
     let previous = { y: 0 }
     _.each(data, ({amount, timestamp}) => {
@@ -93,6 +97,9 @@ export class App extends Component {
             period={period}
             onPeriodChange={::this.changePeriod}
             data={data}
+            weekAmount={weekAmount}
+            monthAmount={monthAmount}
+            yearAmount={yearAmount}
             accumulatedData={accumulatedData}
           />
         </div>
