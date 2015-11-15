@@ -97,7 +97,7 @@ export default class ChartWrapper extends Component {
       <div style={styles.charts}>
         <BarChart period={period} data={data}/>
         <LineChart period={period} maxToSpend={maxToSpend} data={accumulatedData}/>
-        <PieChart label="Coffee" value={42} total={2000}/>
+        <PieChart label="Coffee" value={160} total={2000}/>
       </div>
     </div>
   }
