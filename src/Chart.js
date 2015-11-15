@@ -18,6 +18,7 @@ export default class Chart extends Component {
           independentAxis={true}
         />
         <VictoryAxis
+          tickFormat={x => `£${x / 100}`}
           dependentAxis={true}
         />
 

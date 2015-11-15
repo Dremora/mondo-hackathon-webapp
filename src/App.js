@@ -50,7 +50,7 @@ export class App extends Component {
     }))
 
     const days = 30
-    const maxToSpend = 500
+    const maxToSpend = 300000
 
     // data = data.filter((value, key))
     let beginningOfMonth = moment(currentDate).startOf('month').unix()
@@ -58,7 +58,6 @@ export class App extends Component {
     data = data.filter(({amount, timestamp}) => (
       timestamp >= beginningOfMonth && timestamp <= endOfMonth
     ))
-    console.log(data)
 
     let newData = []
     let previous = { y: 0 }
@@ -70,8 +69,6 @@ export class App extends Component {
       newData.push(newEntry)
       previous = newEntry
     })
-
-    console.log(newData)
 
     return (
       <div>
