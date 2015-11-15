@@ -4,29 +4,44 @@ import _ from 'lodash'
 import moment from 'moment'
 
 export default ({ data, period }) => {
-  const start = data[0].x
-  const end = data[data.length - 1].x
-
   let tickFormat
   let maxToSpend
+  let tickLabelSize
+  let tickValues = []
 
+  let start = moment().startOf(period)
+  let end = moment().endOf(period).startOf('day').add('day', 1)
+
+  let periodDiff
   switch (period) {
     case 'week':
+      periodDiff = 'day'
       tickFormat = 'ddd'
+      tickLabelSize = 10
       maxToSpend = 1000
       break
     case 'month':
+      periodDiff = 'day'
       tickFormat = 'D'
+      tickLabelSize = 6
       maxToSpend = 4000
       break
     case 'year':
-      tickFormat = 'MMM'
+      periodDiff = 'week'
+      tickFormat = 'w'
+      tickLabelSize = 5
       maxToSpend = 52000
+      break
+  }
+
+  while (start.isBefore(end)) {
+    tickValues.push(start.unix())
+    start.add(1, periodDiff)
   }
 
   const ideal = [
-    {x: start, y: 0},
-    {x: end, y: maxToSpend}
+    {x: tickValues[0], y: 0},
+    {x: tickValues[tickValues.length - 1], y: maxToSpend}
   ]
 
   return (
@@ -34,6 +49,12 @@ export default ({ data, period }) => {
       <VictoryAxis
         independentAxis={true}
         tickFormat={x => moment.unix(x).format(tickFormat)}
+        tickValues={tickValues}
+        style={{
+          tickLabels: {
+            fontSize: tickLabelSize
+          }
+        }}
       />
       <VictoryAxis
         tickFormat={x => `£${x / 100}`}
@@ -44,7 +65,6 @@ export default ({ data, period }) => {
         style={{data:
           {stroke: "red", strokeWidth: 2}
         }}
-        interpolation="basis"
         data={data}
       />
 
@@ -53,7 +73,6 @@ export default ({ data, period }) => {
         style={{data:
           {stroke: "green", strokeWidth: 2}
         }}
-        interpolation="basis"
         data={ideal}
       />
     </VictoryChart>

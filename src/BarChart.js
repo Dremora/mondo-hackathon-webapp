@@ -41,8 +41,6 @@ export default ({ data, period }) => {
     start.add(1, periodDiff)
   }
 
-  console.log(chartData)
-
   return (
     <VictoryChart>
       <VictoryAxis
