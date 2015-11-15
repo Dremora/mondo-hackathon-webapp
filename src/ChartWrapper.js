@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import LineChart from './LineChart'
 import PieChart from './PieChart'
+import BarChart from './BarChart'
 import Radium from 'radium'
 
 var styles = {
@@ -63,8 +64,7 @@ export default class ChartWrapper extends Component {
   }
 
   render () {
-    const { onPeriodChange, period, ...props } = this.props
-    console.log(period)
+    const { onPeriodChange, period, maxToSpend, accumulatedData, data } = this.props
     const month = moment(this.props.currentDate).format('MMMM YYYY')
 
     return <div style={styles.container}>
@@ -92,7 +92,8 @@ export default class ChartWrapper extends Component {
         </div>
       </div>
       <div style={styles.charts}>
-        <LineChart {...props}/>
+        <BarChart period={period} data={data}/>
+        <LineChart period={period} maxToSpend={maxToSpend} data={accumulatedData}/>
         <PieChart label="Coffee" value={42} total={2000}/>
       </div>
     </div>

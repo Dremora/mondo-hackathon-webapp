@@ -18,72 +18,84 @@ export class App extends Component {
   }
 
   componentWillMount() {
-    // fetch('http://2fef1536.ngrok.com/app_dev.php/v1/transactions/balance/day')
-    // .then(response => response.json()
-    //   , ::console.error)
-    // .then(body => {
-      let data = body.map(({created, amount}) => ({
-        date: moment(created).startOf('day').unix(),
-        amount: amount
-      }))
+    const accountId = this.props.location.query['account-id']
+    const transactionId = this.props.location.query['transaction-id']
+    fetch('http://mondo.instatswetrust.com/v1/transactions/detailed?account-id=' +
+      accountId + '&transaction-id=' + transactionId)
+    .then(response => response.json()
+      , ::console.error)
+    .then(body => {
+      let processStats = stats => _.sortBy(stats.expenses.map(({ key, stats }) => {
+        return {
+          timestamp: key / 1000,
+          amount: -stats.sum
+        }
+      }), 'timestamp')
 
-      data = _.groupBy(data, 'date')
+      // let data = body.map(({created, amount}) => ({
+      //   date: moment(created).startOf('day').unix(),
+      //   amount: amount
+      // }))
+
+      // data = _.groupBy(data, 'date')
       this.setState({
-        data: data,
+        periodData: {
+          week: processStats(body.aggs.week),
+          month: processStats(body.aggs.month),
+          year: processStats(body.aggs.year)
+        },
         loading: false
       })
-    // });
+    });
   }
 
   changePeriod(period) {
-    let start = moment().startOf(period).unix()
-    let end = moment().endOf(period).unix()
     this.setState({
       period: period
     })
   }
 
   render() {
-    let { data, currentDate, period } = this.state
-    data = _.map(data, (entries, timestamp) => ({
-      timestamp,
-      amount: _.reduce(entries, (acc, { amount }) => amount > 0 ? acc : acc - amount, 0)
-    }))
+    let { periodData, currentDate, period } = this.state
+    if (this.state.loading) {
+      return <span>Loading...</span>
+    }
 
-    const days = 30
-    const maxToSpend = 300000
+    let data = periodData[period]
+    // data = _.map(data, (entries, timestamp) => ({
+    //   timestamp,
+    //   amount: _.reduce(entries, (acc, { amount }) => amount > 0 ? acc : acc - amount, 0)
+    // }))
 
     // data = data.filter((value, key))
-    let beginningOfMonth = moment(currentDate).startOf('month').unix()
-    let endOfMonth = moment(currentDate).endOf('month').unix()
-    data = data.filter(({amount, timestamp}) => (
-      timestamp >= beginningOfMonth && timestamp <= endOfMonth
-    ))
+    // let beginningOfMonth = moment(currentDate).startOf('month').unix()
+    // let endOfMonth = moment(currentDate).endOf('month').unix()
+    // data = data.filter(({amount, timestamp}) => (
+    //   timestamp >= beginningOfMonth && timestamp <= endOfMonth
+    // ))
 
-    let newData = []
+    let accumulatedData = []
     let previous = { y: 0 }
     _.each(data, ({amount, timestamp}) => {
       let newEntry = {
-        x: Number(moment.unix(timestamp).format('D')),
+        x: Number(timestamp),
         y: previous.y + amount
       }
-      newData.push(newEntry)
+      accumulatedData.push(newEntry)
       previous = newEntry
     })
 
     return (
       <div>
-        {this.state.loading ? <span>Loading...</span> :
-          <div>
-            <ChartWrapper
-              currentDate={currentDate}
-              period={period}
-              onPeriodChange={::this.changePeriod}
-              maxToSpend={maxToSpend}
-              data={newData}
-            />
-          </div>
-        }
+        <div>
+          <ChartWrapper
+            currentDate={currentDate}
+            period={period}
+            onPeriodChange={::this.changePeriod}
+            data={data}
+            accumulatedData={accumulatedData}
+          />
+        </div>
       </div>
     );
   }

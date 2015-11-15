@@ -3,42 +3,59 @@ import { VictoryChart, VictoryLine, VictoryAxis } from "victory"
 import _ from 'lodash'
 import moment from 'moment'
 
-export default class Chart extends Component {
-  render() {
-    const { maxToSpend, data } = this.props
-    const days = data.length
-    const ideal = [
-      {x: 1, y: 0},
-      {x: days, y: maxToSpend}
-    ]
+export default ({ data, period }) => {
+  const start = data[0].x
+  const end = data[data.length - 1].x
 
-    return (
-      <VictoryChart>
-        <VictoryAxis
-          independentAxis={true}
-        />
-        <VictoryAxis
-          tickFormat={x => `£${x / 100}`}
-          dependentAxis={true}
-        />
+  let tickFormat
+  let maxToSpend
 
-        <VictoryLine
-          style={{data:
-            {stroke: "red", strokeWidth: 2}
-          }}
-          interpolation="basis"
-          data={data}
-        />
-
-
-        <VictoryLine
-          style={{data:
-            {stroke: "green", strokeWidth: 2}
-          }}
-          interpolation="basis"
-          data={ideal}
-        />
-      </VictoryChart>
-    )
+  switch (period) {
+    case 'week':
+      tickFormat = 'ddd'
+      maxToSpend = 1000
+      break
+    case 'month':
+      tickFormat = 'D'
+      maxToSpend = 4000
+      break
+    case 'year':
+      tickFormat = 'MMM'
+      maxToSpend = 52000
   }
+
+  const ideal = [
+    {x: start, y: 0},
+    {x: end, y: maxToSpend}
+  ]
+
+  return (
+    <VictoryChart>
+      <VictoryAxis
+        independentAxis={true}
+        tickFormat={x => moment.unix(x).format(tickFormat)}
+      />
+      <VictoryAxis
+        tickFormat={x => `£${x / 100}`}
+        dependentAxis={true}
+      />
+
+      <VictoryLine
+        style={{data:
+          {stroke: "red", strokeWidth: 2}
+        }}
+        interpolation="basis"
+        data={data}
+      />
+
+
+      <VictoryLine
+        style={{data:
+          {stroke: "green", strokeWidth: 2}
+        }}
+        interpolation="basis"
+        data={ideal}
+      />
+    </VictoryChart>
+  )
 }
